@@ -1,15 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import validForm from "../utils/validForm";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  notifyError,
-  notifyReset,
-  notifySuccess,
-} from "../store/actions/notify";
+import { notifyError, notifySuccess } from "../store/actions/notify";
 import { load } from "../store/actions/loading";
 import { postData } from "../utils/fetchData";
+import router from "next/router";
 
 const initialState = {
   username: "",
@@ -25,12 +22,15 @@ const Register = () => {
   const dispatch = useDispatch();
 
   const { loading } = useSelector((state) => state.loading);
-  const { message, color } = useSelector((state) => state.notify);
+  const { isLogged } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (isLogged) router.push("/");
+  }, [isLogged]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
-    dispatch(notifyReset());
   };
 
   const handleSubmit = (e) => {
@@ -47,10 +47,15 @@ const Register = () => {
 
   const register = async () => {
     dispatch(load(true));
-    const form = { username, email, password };
+
+    const form = { username, email, password: password.trim() };
     const result = await postData("auth/register", form);
     if (result.success) {
       dispatch(notifySuccess(result.message));
+
+      setTimeout(() => {
+        router.push("/login");
+      }, 4500);
     } else {
       dispatch(notifyError(result.message));
     }
@@ -69,14 +74,6 @@ const Register = () => {
           onSubmit={handleSubmit}
           disabled
         >
-          {message ? (
-            <div className={`alert alert-${color}`} role="alert">
-              {message}
-            </div>
-          ) : (
-            <></>
-          )}
-
           <header className="my-3">
             <h2>Create an account</h2>
             <div className="divider"></div>

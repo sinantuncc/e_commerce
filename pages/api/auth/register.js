@@ -40,18 +40,19 @@ export default async function handler(req, res) {
 
         res.status(201).json({
           success: true,
-          message: "Register successfully. You can login now!",
+          message: "Register successfully. Redirecting to login page...",
         });
-      } catch (error) {}
-      res.status(400).json({
-        success: false,
-        message: "An error occurred while registering.",
-      });
+      } catch (error) {
+        res.status(400).json({
+          success: false,
+          message: "An error occurred while registering.",
+        });
+      }
       break;
     default:
       res.status(400).json({
         success: false,
-        message: "An error occurred while registering.",
+        message: "An error occurred.",
       });
       break;
   }

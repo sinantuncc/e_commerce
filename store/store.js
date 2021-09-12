@@ -1,7 +1,9 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunkMiddleware from "redux-thunk";
+import { getData } from "../utils/fetchData";
+import { auth } from "./actions/auth";
 import rootReducer from "./reducers";
 
 let store;
@@ -38,5 +40,24 @@ export const initializeStore = (preloadedState) => {
 
 export function useStore(initialState) {
   const store = useMemo(() => initializeStore(initialState), [initialState]);
+
+  useEffect(() => {
+    const firstLogin = localStorage.getItem("firstLogin");
+
+    if (firstLogin) {
+      getData("auth/accessToken").then((res) => {
+        if (!res.success) return localStorage.removeItem("firstLogin");
+
+        store.dispatch(
+          auth({
+            isLogged: true,
+            token: res.access_token,
+            user: res.user,
+          })
+        );
+      });
+    }
+  });
+
   return store;
 }
