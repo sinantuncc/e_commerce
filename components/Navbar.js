@@ -5,12 +5,16 @@ import Image from "next/image";
 import Cookie from "js-cookie";
 import { auth } from "../store/actions/auth";
 import { notifySuccess } from "../store/actions/notify";
+import { FcShop } from "react-icons/fc";
+import { FaShoppingBag } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 
 const Navbar = () => {
   const router = useRouter();
   const isActive = (r) => (r === router.pathname ? "active" : "");
 
   const { isLogged, user } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
 
@@ -25,7 +29,7 @@ const Navbar = () => {
     return (
       <li className="nav-item dropdown">
         <a
-          className="nav-link dropdown-toggle d-inline-flex align-items-center"
+          className="nav-link dropdown d-inline-flex align-items-center"
           id="navbarDropdown"
           role="button"
           data-toggle="dropdown"
@@ -36,8 +40,8 @@ const Navbar = () => {
             <span className="rounded-circle mr-1">
               <Image
                 src={user.avatar}
-                width="25"
-                height="25"
+                width="25px"
+                height="25px"
                 alt="profile-img"
               />
             </span>
@@ -48,8 +52,9 @@ const Navbar = () => {
           className="dropdown-menu dropdown-menu-right"
           aria-labelledby="navbarDropdown"
         >
-          <a className="dropdown-item">Profile</a>
-
+          <Link href={user.username}>
+            <a className="dropdown-item">Profile</a>
+          </Link>
           <button className="dropdown-item" onClick={handleLogout}>
             Logout
           </button>
@@ -58,64 +63,68 @@ const Navbar = () => {
     );
   };
   return (
-    <>
-      <nav
-        className="navbar navbar-expand-lg navbar-light"
-        style={{ backgroundColor: "#e3f2fd" }}
+    <nav
+      className="navbar navbar-expand-lg navbar-light"
+      style={{ backgroundColor: "#e3f2fd", padding: "4px 16px" }}
+    >
+      <Link href="/">
+        <a className="navbar-brand d-inline-flex align-items-center">
+          <FcShop size="1.4em" className="mr-1" />
+          <b>DIKAN</b>
+        </a>
+      </Link>
+      <button
+        className="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
       >
-        <Link href="/">
-          <a className="navbar-brand">
-            <i className="fas fa-store-alt mx-1" aria-hidden="true"></i>E-SHOP
-          </a>
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+        <span className="navbar-toggler-icon"></span>
+      </button>
 
-        <div
-          className="collapse navbar-collapse justify-content-end "
-          id="navbarNav"
-        >
-          <ul className="navbar-nav">
+      <div
+        className="collapse navbar-collapse justify-content-end"
+        id="navbarNav"
+      >
+        <ul className="navbar-nav">
+          <li className="nav-item">
+            <Link href="/cart">
+              <a
+                className={`nav-link ${isActive(
+                  "/cart"
+                )} d-inline-flex align-items-center`}
+              >
+                <FaShoppingBag className="mr-1" />
+                Cart
+                <span className="badge badge-pill badge-danger ml-1 py-1">
+                  {cart.length === 0 ? "" : cart.length}
+                </span>
+              </a>
+            </Link>
+          </li>
+
+          {isLogged ? (
+            loggedRouter()
+          ) : (
             <li className="nav-item">
-              <Link href="/cart">
-                <a className={`nav-link ${isActive("/cart")}`}>
-                  <i
-                    className="fas fa-shopping-bag mx-1"
-                    aria-hidden="true"
-                  ></i>
-                  Cart
+              <Link href="/login">
+                <a
+                  className={`nav-link ${isActive(
+                    "/login"
+                  )} d-inline-flex align-items-center`}
+                >
+                  <FaUser className="mr-1" />
+                  Login
                 </a>
               </Link>
             </li>
-
-            {isLogged ? (
-              loggedRouter()
-            ) : (
-              <li className="nav-item">
-                <Link href="/login">
-                  <a className={`nav-link ${isActive("/login")}`}>
-                    <i
-                      className="fas fa-user-circle mx-1"
-                      aria-hidden="true"
-                    ></i>
-                    Login
-                  </a>
-                </Link>
-              </li>
-            )}
-          </ul>
-        </div>
-      </nav>
-    </>
+          )}
+        </ul>
+      </div>
+    </nav>
   );
 };
 

@@ -11,19 +11,25 @@ const notify = (state = initialState, action) => {
       return {
         ...state,
         message: action.payload,
-        color: "info",
+        color: "toast_info",
       };
     case types.NOTIFY_SUCCESS:
       return {
         ...state,
         message: action.payload,
-        color: "success",
+        color: "toast_success",
+      };
+    case types.NOTIFY_WARNING:
+      return {
+        ...state,
+        message: action.payload,
+        color: "toast_warning",
       };
     case types.NOTIFY_ERROR:
       return {
         ...state,
         message: action.payload,
-        color: "danger",
+        color: "toast_error",
       };
     case types.NOTIFY_RESET:
       return (state = initialState);

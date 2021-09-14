@@ -13,12 +13,12 @@ import router from "next/router";
 const initialState = {
   usernameOrEmail: "",
   password: "",
-  checked: false,
+  rememberMe: false,
 };
 
 const Login = () => {
   const [userData, setUserData] = useState(initialState);
-  const { usernameOrEmail, password, checked } = userData;
+  const { usernameOrEmail, password, rememberMe } = userData;
 
   const dispatch = useDispatch();
 
@@ -61,7 +61,7 @@ const Login = () => {
 
       Cookie.set("refreshtoken", result.refresh_token, {
         path: "api/auth/accessToken",
-        expires: checked ? 7 : 1,
+        expires: rememberMe ? 7 : 1,
       });
 
       localStorage.setItem("firstLogin", true);
@@ -72,7 +72,7 @@ const Login = () => {
   };
 
   return (
-    <>
+    <div className="mx-3">
       <Head>
         <title>E-SHOP | Login</title>
       </Head>
@@ -112,9 +112,9 @@ const Login = () => {
             <input
               type="checkbox"
               className="form-check-input"
-              checked={checked}
+              checked={rememberMe}
               onChange={(e) =>
-                setUserData({ ...userData, checked: e.target.checked })
+                setUserData({ ...userData, rememberMe: e.target.checked })
               }
             />
             <label className="form-check-label">Remember me</label>
@@ -159,7 +159,7 @@ const Login = () => {
           </style>
         </form>
       </fieldset>
-    </>
+    </div>
   );
 };
 

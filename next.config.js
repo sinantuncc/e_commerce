@@ -7,6 +7,10 @@ module.exports = {
     REFRESH_TOKEN_SECRET:
       "!$3k&x#j52QLzF6x+H^@vPA5A-EA8c#-#_fqMWavvjX@BhrjCn3xNJzXAYjgGRP+48u_?d3L45u&*LG",
   },
+  devIndicators: {
+    buildActivity: false,
+  },
+  images: {
+    domains: ["res.cloudinary.com"],
+  },
 };
-
-//"<YOUR MONGO_URI>",

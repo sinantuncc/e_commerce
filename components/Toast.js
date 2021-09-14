@@ -17,20 +17,21 @@ const Toast = () => {
           aria-atomic="true"
           style={{
             position: "relative",
-            minHeight: "2.5rem",
-            minHeight: "1.2rem",
+            //  minHeight: "2.5rem",
+            //   minHeight: "1.2rem",
+            zIndex: 1,
           }}
         >
           <div
-            className={`toast show bg-${color} text-light `}
+            className={`toast show ${color}`}
             style={{
               position: "absolute",
-              top: "10px",
-              right: "10px",
-              minWidth: "280px",
+              top: "0.5rem",
+              right: "0.5rem",
+              minWidth: "200px",
             }}
           >
-            <div className={`toast-header bg-${color} text-light`}>
+            <div className={`toast-header ${color}`}>
               <div className="mr-auto">{message}</div>
               <button
                 type="button"

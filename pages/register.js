@@ -63,7 +63,7 @@ const Register = () => {
   };
 
   return (
-    <>
+    <div className="mx-3">
       <Head>
         <title>E-SHOP | Register</title>
       </Head>
@@ -163,7 +163,7 @@ const Register = () => {
           </style>
         </form>
       </fieldset>
-    </>
+    </div>
   );
 };
 
