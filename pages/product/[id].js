@@ -29,13 +29,14 @@ const ProductDetail = (props) => {
   };
 
   const handleBuy = () => {
-    dispatch(addToCart(product));
-
     const isAdded = cart.every((item) => item._id !== product._id);
 
-    isAdded
-      ? dispatch(notifySuccess(`${product.title} added to cart.`))
-      : dispatch(notifyInfo(`${product.title} has been added to cart!`));
+    if (isAdded) {
+      dispatch(addToCart(product));
+      dispatch(notifySuccess(`${product.title} added to cart.`));
+    } else {
+      dispatch(notifyInfo(`${product.title} has been added to cart!`));
+    }
   };
 
   return (
@@ -102,6 +103,7 @@ const ProductDetail = (props) => {
 
 export async function getServerSideProps({ params: { id } }) {
   const res = await getData(`product/${id}`);
+
   return {
     props: {
       product: res.product,

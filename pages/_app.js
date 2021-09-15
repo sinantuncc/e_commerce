@@ -5,6 +5,7 @@ import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   const store = useStore(pageProps.initialReduxState);
+
   return (
     <Provider store={store}>
       <Layout>

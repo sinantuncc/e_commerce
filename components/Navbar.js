@@ -15,7 +15,6 @@ const Navbar = () => {
 
   const { isLogged, user } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
-
   const dispatch = useDispatch();
 
   const handleLogout = () => {
