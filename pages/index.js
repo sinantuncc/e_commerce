@@ -1,11 +1,9 @@
 import Head from "next/head";
-import { useState } from "react";
 import Product from "../components/Product";
 import { getData } from "../utils/fetchData";
 
 const Home = ({ res }) => {
-  const { success, total } = res;
-  const [products, setProducts] = useState(res.products);
+  const { success, total, products } = res;
 
   return (
     <main className="products">

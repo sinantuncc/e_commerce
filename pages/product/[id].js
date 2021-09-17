@@ -1,31 +1,39 @@
 /* eslint-disable @next/next/no-img-element */
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getData } from "../../utils/fetchData";
 import { BsFillHeartFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { notifyInfo, notifySuccess } from "../../store/actions/notify";
 import { addToCart } from "../../store/actions/cart";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const ProductDetail = (props) => {
   const { product } = props;
-  const [tab, setTab] = useState(0);
-  const [favorite, setFavorite] = useState(false);
-
-  const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
 
-  const isActive = (index) => (tab === index ? "active" : "");
+  const dispatch = useDispatch();
+
+  const [tab, setTab] = useState(0);
+  const [favorite, setFavorite] = useLocalStorage(
+    `_favorite_${product._id}_`,
+    false
+  );
+  const [localCart, setLocalCart] = useLocalStorage("_cart_");
+
+  useEffect(() => {
+    if (cart.length) setLocalCart(cart);
+  }, [cart]);
+
+  const isActive = (index) => tab === index && "active";
 
   const isSoldOut = () =>
     product.inStock > 0 ? "btn-success" : "btn-secondary";
 
   const handleFavorite = () => {
     setFavorite(!favorite);
-
     let status = favorite ? "removed" : "added";
-
-    dispatch(notifyInfo(`${product.title} ${status} to favourites.`));
+    dispatch(notifySuccess(`${product.title} ${status} to favourites.`));
   };
 
   const handleBuy = () => {
@@ -33,18 +41,17 @@ const ProductDetail = (props) => {
 
     if (isAdded) {
       dispatch(addToCart(product));
-      dispatch(notifySuccess(`${product.title} added to cart.`));
     } else {
       dispatch(notifyInfo(`${product.title} has been added to cart!`));
     }
   };
 
   return (
-    <>
+    <div className="container mt-4">
       <Head>
         <title>{product.title}</title>
       </Head>
-      <div className=" row detail_page m-4">
+      <div className="row detail_page">
         <div className="col-md-6">
           <img
             src={product.images[tab].url}
@@ -92,12 +99,16 @@ const ProductDetail = (props) => {
               {product.inStock > 0 ? "Buy" : "Sold Out"}
             </button>
             <button className="btn border" onClick={handleFavorite}>
-              <BsFillHeartFill size="1.5em" color={favorite ? "red" : "gray"} />
+              <BsFillHeartFill
+                size="1.5em"
+                color={favorite ? "red" : "#c3c3c3"}
+                style={{ transition: "ease-in 250ms" }}
+              />
             </button>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

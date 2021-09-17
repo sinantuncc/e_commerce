@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
@@ -10,12 +11,13 @@ import { FaShoppingBag } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 
 const Navbar = () => {
-  const router = useRouter();
-  const isActive = (r) => (r === router.pathname ? "active" : "");
-
   const { isLogged, user } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
+
   const dispatch = useDispatch();
+  const router = useRouter();
+
+  const isActive = (r) => (r === router.pathname ? "active" : "");
 
   const handleLogout = () => {
     Cookie.remove("refreshtoken", { path: "api/auth/accessToken" });
@@ -99,7 +101,7 @@ const Navbar = () => {
                 <FaShoppingBag className="mr-1" />
                 Cart
                 <span className="badge badge-pill badge-danger ml-1 py-1">
-                  {cart.length === 0 ? "" : cart.length}
+                  {cart.length && cart.length}
                 </span>
               </a>
             </Link>

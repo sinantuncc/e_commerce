@@ -1,13 +1,19 @@
+import { notifyError, notifySuccess } from "./notify";
 import * as types from "./types";
 
-export const addToCart = (payload) => {
-  SaveDataToLocalStorage(payload);
-  return { type: types.ADD_CART, payload };
+export const addToCart = (payload) => (dispatch) => {
+  try {
+    dispatch({ type: types.ADD_CART, payload });
+    dispatch(notifySuccess(`${payload.title} added to cart.`));
+    //SaveDataToLocalStorage(payload);
+  } catch (error) {
+    dispatch(notifyError("error in cart action"));
+  }
 };
 
-function SaveDataToLocalStorage(data) {
-  var _cart01_ = [];
-  _cart01_ = JSON.parse(localStorage.getItem("_cart01_")) || [];
-  _cart01_.push(data);
-  localStorage.setItem("_cart01_", JSON.stringify(_cart01_));
-}
+// function SaveDataToLocalStorage(data) {
+//   var a = [];
+//   a = JSON.parse(localStorage.getItem("_cart_")) || [];
+//   a.push(data);
+//   localStorage.setItem("_cart_", JSON.stringify(a));
+// }
