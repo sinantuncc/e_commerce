@@ -1,9 +1,55 @@
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import CartDetail from "../components/CartDetail";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import { getData } from "../utils/fetchData";
 
 const Cart = () => {
   const { cart } = useSelector((state) => state.cart);
+  const [total, setTotal] = useState(0);
+  const [localCart, setLocalCart] = useLocalStorage("_cart_");
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (localCart.length > 0) {
+      let newArr = [];
+      const updateCart = async () => {
+        for (let item of localCart) {
+          const res = await getData(`product/${item._id}`);
+          const { _id, title, images, price, inStock, sold } = res.product;
+          if (inStock > 0) {
+            newArr.push({
+              _id,
+              title,
+              images,
+              price,
+              inStock,
+              sold,
+              quantity: item.quantity > inStock - sold ? 1 : item.quantity,
+            });
+          }
+        }
+
+        dispatch({ type: "ADD_CART", payload: newArr });
+      };
+      updateCart();
+    }
+  }, []);
+
+  useEffect(() => {
+    const getTotal = () => {
+      const result = cart.reduce(
+        (prev, item) => prev + item.price * item.quantity,
+        0
+      );
+
+      setTotal(result);
+    };
+
+    getTotal();
+    setLocalCart(cart);
+  }, [cart]);
 
   return (
     <div className="container mt-4">
@@ -14,7 +60,7 @@ const Cart = () => {
             <table className="table table-hover">
               <tbody>
                 {cart.map((item) => (
-                  <CartDetail key={item._id} item={item} />
+                  <CartDetail key={item._id} item={item} cart={cart} />
                 ))}
               </tbody>
             </table>
@@ -31,7 +77,9 @@ const Cart = () => {
                 <hr />
               </>
             ))}
-            <h5 className="text-dark">Total: ${100}</h5>
+            <h5>
+              Total: <span className="text-danger">${total}</span>
+            </h5>
             <hr />
             <button className="btn btn-dark w-100">PAY</button>
           </div>

@@ -5,15 +5,32 @@ export const addToCart = (payload) => (dispatch) => {
   try {
     dispatch({ type: types.ADD_CART, payload });
     dispatch(notifySuccess(`${payload.title} added to cart.`));
-    //SaveDataToLocalStorage(payload);
   } catch (error) {
     dispatch(notifyError("error in cart action"));
   }
 };
 
-// function SaveDataToLocalStorage(data) {
-//   var a = [];
-//   a = JSON.parse(localStorage.getItem("_cart_")) || [];
-//   a.push(data);
-//   localStorage.setItem("_cart_", JSON.stringify(a));
-// }
+export const increase = (data, id) => (dispatch) => {
+  const newData = [...data];
+
+  newData.forEach((item) => {
+    if (item._id === id) item.quantity += 1;
+  });
+
+  return dispatch({ type: types.ADD_CART, payload: newData });
+};
+
+export const decrease = (data, id) => (dispatch) => {
+  const newData = [...data];
+
+  newData.forEach((item) => {
+    if (item._id === id) item.quantity -= 1;
+  });
+
+  return dispatch({ type: types.ADD_CART, payload: newData });
+};
+
+export const removeFromCart = (id) => ({
+  type: types.REMOVE_FROM_CART,
+  payload: id,
+});

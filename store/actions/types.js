@@ -9,3 +9,6 @@ export const LOADING = "LOADING";
 export const AUTH = "AUTH";
 
 export const ADD_CART = "ADD_CART";
+export const INCREASE = "INCREASE";
+export const DECREASE = "DECREASE";
+export const REMOVE_FROM_CART = "REMOVE_FROM_CART";

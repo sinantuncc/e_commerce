@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
@@ -101,7 +100,7 @@ const Navbar = () => {
                 <FaShoppingBag className="mr-1" />
                 Cart
                 <span className="badge badge-pill badge-danger ml-1 py-1">
-                  {cart.length && cart.length}
+                  {cart.length > 0 && cart.length}
                 </span>
               </a>
             </Link>
