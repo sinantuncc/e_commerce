@@ -25,7 +25,7 @@ const Product = ({ product }) => (
       </p>
 
       <div className="row justify-content-between mx-0">
-        <Link href={`product/${product._id}`}>
+        <Link href={`/product/${product._id}`}>
           <a className="btn btn-primary flex-fill">View Details</a>
         </Link>
       </div>

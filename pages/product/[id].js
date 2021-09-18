@@ -8,8 +8,7 @@ import { notifyInfo, notifySuccess } from "../../store/actions/notify";
 import { addToCart } from "../../store/actions/cart";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 
-const ProductDetail = (props) => {
-  const { product } = props;
+const ProductDetail = ({ product }) => {
   const { cart } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();

@@ -1,0 +1,17 @@
+.divider {
+  border-bottom: 2px solid #b0deff;
+  width: 11%;
+}
+.customBtn {
+  background: #e3f2fd;
+  border: 1px solid #b0deff;
+}
+.customForm {
+  max-width: 500px;
+}
+p > a {
+  color: #dc143c;
+}
+p > a:hover {
+  color: #dc143c;
+}

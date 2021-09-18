@@ -17,13 +17,11 @@ const Toast = () => {
           aria-atomic="true"
           style={{
             position: "relative",
-            //  minHeight: "2.5rem",
-            //   minHeight: "1.2rem",
             zIndex: 1,
           }}
         >
           <div
-            className={`toast show ${color}`}
+            className={`toast  show ${color}`}
             style={{
               position: "absolute",
               top: "0.5rem",

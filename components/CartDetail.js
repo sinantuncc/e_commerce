@@ -2,6 +2,7 @@ import { MdDelete } from "react-icons/md";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { decrease, increase, removeFromCart } from "../store/actions/cart";
+import { modalOpen } from "../store/actions/modal";
 
 const CartDetail = ({ item, cart }) => {
   const dispatch = useDispatch();
@@ -44,7 +45,9 @@ const CartDetail = ({ item, cart }) => {
       <td>
         <button
           className="btn btn-outline-danger"
-          onClick={() => dispatch(removeFromCart(item._id))}
+          data-toggle="modal"
+          data-target="#staticBackdrop"
+          onClick={() => dispatch(modalOpen(item, "deleteProduct"))}
         >
           <MdDelete size="1.5em" />
         </button>

@@ -10,14 +10,14 @@ import Cookie from "js-cookie";
 import { auth } from "../store/actions/auth";
 import router from "next/router";
 
-const initialState = {
+const initialValue = {
   usernameOrEmail: "",
   password: "",
   rememberMe: false,
 };
 
 const Login = () => {
-  const [userData, setUserData] = useState(initialState);
+  const [userData, setUserData] = useState(initialValue);
   const { usernameOrEmail, password, rememberMe } = userData;
 
   const dispatch = useDispatch();
@@ -26,7 +26,9 @@ const Login = () => {
   const { isLogged } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (isLogged) router.push("/");
+    let { cb } = router.query;
+
+    if (isLogged) cb ? router.push(cb) : router.push("/");
   }, [isLogged]);
 
   const handleChange = (e) => {
@@ -74,7 +76,7 @@ const Login = () => {
   return (
     <div className="mx-3">
       <Head>
-        <title>E-SHOP | Login</title>
+        <title>Login</title>
       </Head>
       <fieldset disabled={loading ? true : false}>
         <form
@@ -139,24 +141,6 @@ const Login = () => {
               <a>Register</a>
             </Link>
           </p>
-          <style jsx>
-            {`
-              .divider {
-                border-bottom: 2px solid #b0deff;
-                width: 8%;
-              }
-              p > a {
-                color: #dc143c;
-              }
-              .customBtn {
-                background: #e3f2fd;
-                border: 1px solid #b0deff;
-              }
-              .customForm {
-                max-width: 500px;
-              }
-            `}
-          </style>
         </form>
       </fieldset>
     </div>

@@ -8,7 +8,7 @@ import { load } from "../store/actions/loading";
 import { postData } from "../utils/fetchData";
 import router from "next/router";
 
-const initialState = {
+const initialValue = {
   username: "",
   email: "",
   password: "",
@@ -16,7 +16,7 @@ const initialState = {
 };
 
 const Register = () => {
-  const [userData, setUserData] = useState(initialState);
+  const [userData, setUserData] = useState(initialValue);
   const { username, email, password, cf_password } = userData;
 
   const dispatch = useDispatch();
@@ -65,7 +65,7 @@ const Register = () => {
   return (
     <div className="mx-3">
       <Head>
-        <title>E-SHOP | Register</title>
+        <title>Register</title>
       </Head>
       <fieldset disabled={loading ? true : false}>
         <form
@@ -143,24 +143,6 @@ const Register = () => {
               <a>Login</a>
             </Link>
           </p>
-          <style jsx>
-            {`
-              .divider {
-                border-bottom: 2px solid #b0deff;
-                width: 11%;
-              }
-              p > a {
-                color: #dc143c;
-              }
-              .customBtn {
-                background: #e3f2fd;
-                border: 1px solid #b0deff;
-              }
-              .customForm {
-                max-width: 500px;
-              }
-            `}
-          </style>
         </form>
       </fieldset>
     </div>

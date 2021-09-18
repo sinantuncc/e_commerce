@@ -3,7 +3,7 @@ import Product from "../components/Product";
 import { getData } from "../utils/fetchData";
 
 const Home = ({ res }) => {
-  const { success, total, products } = res;
+  const { success, products } = res;
 
   return (
     <main className="products">
@@ -17,7 +17,7 @@ const Home = ({ res }) => {
           ))}
         </div>
       ) : (
-        <h2 className="rext-center">No Product</h2>
+        <h2 className="text-center m-5">No Product</h2>
       )}
     </main>
   );
