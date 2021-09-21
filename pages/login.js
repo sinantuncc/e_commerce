@@ -67,6 +67,10 @@ const Login = () => {
       });
 
       localStorage.setItem("firstLogin", true);
+      localStorage.setItem(
+        "_auth_",
+        JSON.stringify({ ...result.user, isLogged: true })
+      );
     } else {
       dispatch(notifyError(result.message));
     }

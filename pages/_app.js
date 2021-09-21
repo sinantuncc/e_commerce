@@ -8,18 +8,9 @@ import { useEffect } from "react";
 function MyApp({ Component, pageProps }) {
   const store = useStore(pageProps.initialReduxState);
 
-  const { cart } = store.getState().cart;
-
-  const [localCart] = useLocalStorage("_cart_", cart);
-
-  useEffect(() => {
-    if (localCart.length)
-      store.dispatch({ type: "ADD_CART", payload: localCart });
-  }, []);
-
   return (
     <Provider store={store}>
-      <Layout>
+      <Layout store={store}>
         <Component {...pageProps} />
       </Layout>
     </Provider>

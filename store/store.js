@@ -5,6 +5,7 @@ import thunkMiddleware from "redux-thunk";
 import { getData } from "../utils/fetchData";
 import { auth } from "./actions/auth";
 import rootReducer from "./reducers";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 let store;
 
@@ -36,13 +37,19 @@ export const initializeStore = (preloadedState) => {
 export function useStore(initialState) {
   const store = useMemo(() => initializeStore(initialState), [initialState]);
 
+  const [localAuth, setLocalAuth] = useLocalStorage("_auth_", {});
   useEffect(() => {
     const firstLogin = localStorage.getItem("firstLogin");
 
+    firstLogin || setLocalAuth({});
+
     if (firstLogin) {
       getData("auth/accessToken").then((res) => {
-        if (!res.success) return localStorage.removeItem("firstLogin");
-
+        if (!res.success) {
+          localStorage.removeItem("firstLogin");
+          setLocalAuth({});
+          return;
+        }
         store.dispatch(
           auth({
             isLogged: true,
@@ -50,6 +57,8 @@ export function useStore(initialState) {
             user: res.user,
           })
         );
+
+        setLocalAuth({ ...res.user, isLogged: true });
       });
     }
   }, []);

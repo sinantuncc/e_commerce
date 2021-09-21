@@ -15,24 +15,26 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (localCart && localCart.length > 0) {
+    if (cart && cart.length > 0) {
       let newArr = [];
       const updateCart = async () => {
         for (let item of localCart) {
           const res = await getData(`product/${item._id}`);
-          const { _id, title, images, price, inStock } = res.product;
-          if (inStock > 0) {
-            newArr.push({
-              _id,
-              title,
-              images,
-              price,
-              inStock,
-              quantity:
-                item.quantity > inStock
-                  ? item.quantity - (item.quantity - inStock)
-                  : item.quantity,
-            });
+          if (res) {
+            const { _id, title, images, price, inStock } = res.product;
+            if (inStock > 0) {
+              newArr.push({
+                _id,
+                title,
+                images,
+                price,
+                inStock,
+                quantity:
+                  item.quantity > inStock
+                    ? item.quantity - (item.quantity - inStock)
+                    : item.quantity,
+              });
+            }
           }
         }
 
@@ -90,7 +92,7 @@ const Cart = () => {
             <Link
               href={
                 isLogged
-                  ? "/payment"
+                  ? `/payment`
                   : `/login?cb=${encodeURIComponent("/payment")}`
               }
             >

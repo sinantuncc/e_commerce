@@ -21,6 +21,7 @@ const Navbar = () => {
   const handleLogout = () => {
     Cookie.remove("refreshtoken", { path: "api/auth/accessToken" });
     localStorage.removeItem("firstLogin");
+    localStorage.removeItem("_auth_");
     dispatch(auth({}));
     dispatch(notifySuccess("Logout success!"));
   };
