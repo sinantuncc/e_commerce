@@ -25,6 +25,7 @@ const Home = ({ res }) => {
 
 export async function getStaticProps() {
   const res = await getData("product");
+
   return {
     props: {
       res,

@@ -22,14 +22,7 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
-  const { loading } = useSelector((state) => state.loading);
-  const { isLogged } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    let { cb } = router.query;
-
-    if (isLogged) cb ? router.push(cb) : router.push("/");
-  }, [isLogged]);
+  const { loading } = useSelector((state) => state);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,6 +64,8 @@ const Login = () => {
         "_auth_",
         JSON.stringify({ ...result.user, isLogged: true })
       );
+
+      router.query.cb ? router.push(router.query.cb) : router.push("/");
     } else {
       dispatch(notifyError(result.message));
     }

@@ -12,6 +12,7 @@ export const ADD_CART = "ADD_CART";
 export const INCREASE = "INCREASE";
 export const DECREASE = "DECREASE";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+export const RESET_CART = "RESET_CART";
 
 export const MODAL_OPEN = "MODAL_OPEN";
 export const MODAL_CLOSE = "MODAL_CLOSE";

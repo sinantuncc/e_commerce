@@ -9,7 +9,7 @@ import { addToCart } from "../../store/actions/cart";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const ProductDetail = ({ product }) => {
-  const { cart } = useSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state);
 
   const dispatch = useDispatch();
 

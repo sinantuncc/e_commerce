@@ -19,4 +19,14 @@ function validateUsername(username) {
   return re.test(username);
 }
 
+export function validateFullname(fullName) {
+  const re = /^([\w]{3,})+\s+([\w\s]{3,})+$/i;
+  return re.test(fullName);
+}
+
+export function validatePhoneNumber(phone) {
+  const re = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+  return re.test(phone);
+}
+
 export default validForm;

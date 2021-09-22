@@ -6,8 +6,8 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import { getData } from "../utils/fetchData";
 
 const Cart = () => {
-  const { cart } = useSelector((state) => state.cart);
-  const { isLogged } = useSelector((state) => state.auth);
+  const { cart, auth } = useSelector((state) => state);
+  const { isLogged } = auth;
 
   const [total, setTotal] = useState(0);
   const [localCart, setLocalCart] = useLocalStorage("_cart_");
@@ -21,13 +21,14 @@ const Cart = () => {
         for (let item of localCart) {
           const res = await getData(`product/${item._id}`);
           if (res) {
-            const { _id, title, images, price, inStock } = res.product;
+            const { _id, title, images, price, inStock, sold } = res.product;
             if (inStock > 0) {
               newArr.push({
                 _id,
                 title,
                 images,
                 price,
+                sold,
                 inStock,
                 quantity:
                   item.quantity > inStock
@@ -58,6 +59,32 @@ const Cart = () => {
     setLocalCart(cart);
   }, [cart]);
 
+  const cartSummary = () => (
+    <div className="col-md-4 text-right">
+      <h3 className="">Cart Summary</h3>
+      <hr />
+      {cart.map((item) => (
+        <div key={item._id}>
+          <div className="text-capitalize" key={item._id}>
+            {item.title} &#10006; {item.quantity} = {item.price * item.quantity}
+          </div>
+          <hr />
+        </div>
+      ))}
+      <h5>
+        Total: <span className="text-danger">${total}</span>
+      </h5>
+      <hr />
+      <Link
+        href={
+          isLogged ? `/payment` : `/login?cb=${encodeURIComponent("/payment")}`
+        }
+      >
+        <a className="btn btn-dark w-100">PAYMENT</a>
+      </Link>
+    </div>
+  );
+
   return (
     <div className="container mt-4">
       {cart.length ? (
@@ -72,33 +99,7 @@ const Cart = () => {
               </tbody>
             </table>
           </div>
-          <div className="col-md-4 text-right">
-            <h3 className="">Cart Summary</h3>
-            <hr />
-            {cart.map((item) => (
-              <div key={item._id}>
-                <div className="text-capitalize" key={item._id}>
-                  {item.title} &#10006; {item.quantity} ={" "}
-                  {item.price * item.quantity}
-                </div>
-                <hr />
-              </div>
-            ))}
-            <h5>
-              Total: <span className="text-danger">${total}</span>
-            </h5>
-            <hr />
-
-            <Link
-              href={
-                isLogged
-                  ? `/payment`
-                  : `/login?cb=${encodeURIComponent("/payment")}`
-              }
-            >
-              <a className="btn btn-dark w-100">PAYMENT</a>
-            </Link>
-          </div>
+          {cartSummary()}
         </div>
       ) : (
         <h2 className="text-center">Cart empty !</h2>

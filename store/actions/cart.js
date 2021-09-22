@@ -3,7 +3,10 @@ import * as types from "./types";
 
 export const addToCart = (payload) => (dispatch) => {
   try {
-    dispatch({ type: types.ADD_CART, payload });
+    dispatch({
+      type: types.ADD_CART,
+      payload: { ...payload, quantity: 1 },
+    });
     dispatch(notifySuccess(`${payload.title} added to cart.`));
   } catch (error) {
     dispatch(notifyError("error in cart action"));
@@ -34,3 +37,5 @@ export const removeFromCart = (id) => ({
   type: types.REMOVE_FROM_CART,
   payload: id,
 });
+
+export const resetCart = () => ({ type: types.RESET_CART });

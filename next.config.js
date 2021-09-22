@@ -15,5 +15,3 @@ module.exports = {
     domains: ["res.cloudinary.com"],
   },
 };
-
-//"<YOUR MONGO_URI>",

@@ -1,13 +1,9 @@
 import * as types from "../actions/types";
 
-const initialState = {
-  loading: false,
-};
-
-const loading = (state = initialState, action) => {
+const loading = (state = false, action) => {
   switch (action.type) {
     case types.LOADING:
-      return { ...state, loading: action.payload };
+      return action.payload;
 
     default:
       return state;

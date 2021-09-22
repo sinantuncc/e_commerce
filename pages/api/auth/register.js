@@ -40,7 +40,7 @@ export default async function handler(req, res) {
 
         res.status(201).json({
           success: true,
-          message: "Register successfully. Redirecting to login page...",
+          message: "Register successfully!",
         });
       } catch (error) {
         res.status(400).json({

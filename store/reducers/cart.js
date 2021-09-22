@@ -1,24 +1,16 @@
 import * as types from "../actions/types";
 
-const initialState = {
-  cart: [],
-};
-const cart = (state = initialState, action) => {
+const cart = (state = [], action) => {
   switch (action.type) {
     case types.ADD_CART:
       return action.payload instanceof Array
-        ? {
-            cart: [...action.payload],
-          }
-        : {
-            ...state,
-            cart: [...state.cart, { ...action.payload, quantity: 1 }],
-          };
+        ? [...action.payload]
+        : [...state, action.payload];
+
     case types.REMOVE_FROM_CART:
-      return {
-        ...state,
-        cart: [...state.cart.filter((item) => item._id !== action.payload)],
-      };
+      return [...state.filter((item) => item._id !== action.payload)];
+    case types.RESET_CART:
+      return [];
     default:
       return state;
   }

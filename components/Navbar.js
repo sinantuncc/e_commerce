@@ -10,8 +10,8 @@ import { FaShoppingBag } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 
 const Navbar = () => {
+  const { cart } = useSelector((state) => state);
   const { isLogged, user } = useSelector((state) => state.auth);
-  const { cart } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
   const router = useRouter();

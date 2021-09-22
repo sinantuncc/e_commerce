@@ -21,12 +21,7 @@ const Register = () => {
 
   const dispatch = useDispatch();
 
-  const { loading } = useSelector((state) => state.loading);
-  const { isLogged } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (isLogged) router.push("/");
-  }, [isLogged]);
+  const { loading } = useSelector((state) => state);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,9 +48,8 @@ const Register = () => {
     if (result.success) {
       dispatch(notifySuccess(result.message));
 
-      setTimeout(() => {
-        router.push("/login");
-      }, 4500);
+      let { cb } = router.query;
+      cb ? router.push(`/login?cb=${cb}`) : router.push("/login");
     } else {
       dispatch(notifyError(result.message));
     }
