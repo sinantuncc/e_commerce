@@ -21,7 +21,11 @@ const Register = () => {
 
   const dispatch = useDispatch();
 
-  const { loading } = useSelector((state) => state);
+  const { loading, auth } = useSelector((state) => state);
+
+  useEffect(() => {
+    if (auth.isLogged) return router.push("/");
+  }, [auth.isLogged]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,8 +52,7 @@ const Register = () => {
     if (result.success) {
       dispatch(notifySuccess(result.message));
 
-      let { cb } = router.query;
-      cb ? router.push(`/login?cb=${cb}`) : router.push("/login");
+      router.push("/login");
     } else {
       dispatch(notifyError(result.message));
     }

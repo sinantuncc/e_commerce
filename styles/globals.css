@@ -42,5 +42,7 @@ img {
 @import url("./products.css");
 
 /* ---------form --------------*/
-
 @import url("./form.css");
+
+/* ---------profile --------------*/
+@import url("./profile.css");

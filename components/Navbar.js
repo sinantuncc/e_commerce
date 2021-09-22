@@ -24,6 +24,7 @@ const Navbar = () => {
     localStorage.removeItem("_auth_");
     dispatch(auth({}));
     dispatch(notifySuccess("Logout success!"));
+    router.push("/");
   };
 
   const loggedRouter = () => {

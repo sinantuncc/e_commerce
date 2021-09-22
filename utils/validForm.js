@@ -14,7 +14,7 @@ export function validateEmail(email) {
   return re.test(email);
 }
 
-function validateUsername(username) {
+export function validateUsername(username) {
   const re = /^([a-zA-Z])[a-zA-Z0-9_]+$/i;
   return re.test(username);
 }

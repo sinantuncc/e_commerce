@@ -11,7 +11,9 @@ const handler = async (req, res) => {
       case "POST":
         await createOrder(req, res);
         break;
-
+      case "GET":
+        await getOrders(req, res);
+        break;
       default:
         break;
     }
@@ -58,4 +60,15 @@ const sold = async (id, quantity, oldInStock, oldSold) => {
   );
 };
 
+const getOrders = async (req, res) => {
+  try {
+    const result = await auth(req, res);
+
+    const orders = await Order.find({ user: result.id });
+
+    res.status(200).json({ success: true, data: orders });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
 export default handler;

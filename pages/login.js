@@ -23,6 +23,11 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const { loading } = useSelector((state) => state);
+  const { isLogged } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (isLogged) router.push("/");
+  }, [isLogged]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
